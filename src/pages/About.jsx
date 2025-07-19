@@ -19,23 +19,23 @@ function About() {
           `,
         }}
       >
-        KyaBaat Farms is your go-to solution for fast, fresh, and delicious
+        waahBaat Farms is your go-to solution for fast, fresh, and delicious
         Vegetables and Fruits delivered right to your doorstep. Whether you're
         craving your favorite restaurant meal or looking to discover something
         new, we're here to serve you with speed and care.
       </p>
 
-      <p className="text-4xl font-extrabold underline  text-white p-4"
-         style={{
-           textShadow: `
+      <p
+        className="text-4xl font-extrabold underline  text-white p-4"
+        style={{
+          textShadow: `
              -1px -1px 0 #000,
              1px -1px 0 #000,
              -1px 1px 0 #000,
              1px 1px 0 #000
            `,
-         }}>
-      
-      </p>
+        }}
+      ></p>
     </div>
   );
 }
