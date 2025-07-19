@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import Loader from "../src/components/Loader";
 import { Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import Contact from "./pages/Contact";
@@ -13,6 +14,14 @@ import Settings from "./pages/Settings";
 import AddProduct from "./pages/Addproduct";
 
 function App() {
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setLoading(false), 1500); // simulate loading
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (loading) return <Loader />;
   return (
     <div className="relative min-h-screen overflow-hidden">
       <div
@@ -23,6 +32,7 @@ function App() {
       <div className="absolute inset-0 bg-white/30 z-0"></div>
 
       <div className="relative z-10">
+    
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
@@ -35,6 +45,7 @@ function App() {
           <Route path="/settings" element={<Settings />} />
           <Route path="/addproduct" element={<AddProduct />} />
         </Routes>
+        
       </div>
     </div>
   );
