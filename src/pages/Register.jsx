@@ -121,10 +121,7 @@ const Register = () => {
     
     try {
       axios.post("http://localhost:5100/auth/register",{values})
-    
-      //  axios.delete("http://localhost:5100/auth/deleteuser",{ id : '6868a9550508c77b92af5dfc' })
-          
-      
+        
       .then((response) => {
         console.log(response);
         setData(response.data.message)
