@@ -13,6 +13,7 @@ import Profile from "./pages/Profile";
 import Settings from "./pages/Settings";
 import AddProduct from "./pages/Addproduct";
 
+
 function App() {
   const [loading, setLoading] = useState(true);
 

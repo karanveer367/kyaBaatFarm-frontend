@@ -120,7 +120,7 @@ const Register = () => {
     console.log("Recieved values of form: ",values);
     
     try {
-      axios.post("http://localhost:5100/auth/register",{values})
+      axios.post("http://localhost:5100/api/auth/register",{values})
         
       .then((response) => {
         console.log(response);

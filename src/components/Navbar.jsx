@@ -6,7 +6,6 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/autoplay";
-import axios from "axios";
 
 const Navbar = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -26,15 +25,6 @@ const Navbar = () => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
-  const handleCaLLApi = () => {
-    try {
-      axios.post("http://localhost:5100/auth/login").then((response) => {
-        console.log(response);
-      });
-    } catch (error) {
-      console.error(error);
-    }
-  };
   return (
     <nav className="flex flex-col shadow-md relative z-10">
       <div className="flex items-center justify-between p-4 w-full flex-wrap gap-4 bg-white/70 backdrop-blur-md">
@@ -66,7 +56,7 @@ const Navbar = () => {
 
         <div className="hidden md:flex items-center gap-6 text-black font-medium">
           <Link to="/" className="hover:underline">
-          <button className="hover:underline" onClick={handleCaLLApi}>
+          <button className="hover:underline">
             Home
           </button>
            </Link>

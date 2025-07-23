@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Form, Input, Button, Select, Upload, message, Radio } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
-
+import axios from "axios";
 
 const { Option } = Select;
 
@@ -20,9 +20,9 @@ const AddProduct = () => {
         }
       });
 
-      // await axios.post("http://localhost:5100/api/addproduct", formData, {
-      //   headers: { "Content-Type": "multipart/form-data" },
-      // });
+      await axios.post("http://localhost:5100/api/product/addproduct", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
 
       message.success("Product added successfully!");
       form.resetFields();

@@ -7,7 +7,7 @@ const Contact = () => {
 
   const onFinish = async (values) => {
     try {
-      await axios.post("http://localhost:5100/auth/contact", values)
+      await axios.post("http://localhost:5100/api/auth/contact", values)
 
       .then((response) =>{
 

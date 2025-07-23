@@ -9,7 +9,7 @@ const Login = () => {
     console.log(values.email);
     try {
       axios
-        .post("http://localhost:5100/auth/login", {
+        .post("http://localhost:5100/api/auth/login", {
           email: values.email,
           password: values.password,
         })
@@ -89,7 +89,7 @@ const Login = () => {
               </Link>
             </div>
           </Form.Item>
-        </Form>
+        </Form>        
       </div>
     </div>
   );
