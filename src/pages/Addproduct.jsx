@@ -1,146 +1,137 @@
 import React, { useState } from "react";
-// import axios from "axios";
+import { Form, Input, Button, Select, Upload, message, Radio } from "antd";
+import { UploadOutlined } from "@ant-design/icons";
+
+
+const { Option } = Select;
 
 const AddProduct = () => {
-    const [productData, setProductData] = useState({
-        name: "",
-        price: "",
-        unit: "Kg",
-        quantity: "",
-        image: null,
-    });
+  const [form] = Form.useForm();
+  const [fileList, setFileList] = useState([]);
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setProductData({ ...productData, [name]: value });
-    };
-
-    const handleImageChange = (e) => {
-        setProductData({ ...productData, image: e.target.files[0] });
-    };
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-
-        try {
-            const formData = new FormData();
-            formData.append("name", productData.name);
-            formData.append("price", productData.price);
-            formData.append("unit", productData.unit);
-            formData.append("quantity", productData.quantity);
-            formData.append("image", productData.image);
-
-            // const res = await axios.post(
-            //     "http://localhost:5100/api/addproduct", // adjust to your backend route
-            //     formData,
-            //     {
-            //         headers: {
-            //             "Content-Type": "multipart/form-data",
-            //         },
-            //     }
-            // );
-
-            alert("Product added successfully!");
-            setProductData({
-                name: "",
-                price: "",
-                unit: "Kg",
-                quantity: "",
-                image: null,
-            });
-        } catch (error) {
-            console.error(error);
-            alert("Error adding product. Please try again.");
+  const handleFinish = async (values) => {
+    try {
+      const formData = new FormData();
+      Object.entries(values).forEach(([key, value]) => {
+        if (key === "image") {
+          formData.append("image", value.file.originFileObj);
+        } else {
+          formData.append(key, value);
         }
-    };
+      });
 
-    return (
-        <div style={styles.container}>
-            <h2>Add Your Product</h2>
-            <form onSubmit={handleSubmit} style={styles.form}>
-                <input
-                    type="text"
-                    name="name"
-                    placeholder="Product Name"
-                    value={productData.name}
-                    onChange={handleChange}
-                    required
-                    style={styles.input}
-                />
-                <input
-                    type="number"
-                    name="price"
-                    placeholder="Price per "
-                    value={productData.price}
-                    onChange={handleChange}
-                    required
-                    style={styles.input}
-                />
-                <select
-                    name="unit"
-                    value={productData.unit}
-                    onChange={handleChange}
-                    style={styles.input}
-                >
-                    <option value="Kg">Kg</option>
-                    <option value="Dozen">Dozen</option>
-                    <option value="Piece">Piece</option>
-                    <option value="Gram">Gram</option>
-                </select>
-                <input
-                    type="number"
-                    name="quantity"
-                    placeholder="Quantity"
-                    value={productData.quantity}
-                    onChange={handleChange}
-                    required
-                    style={styles.input}
-                />
-                <input
-                    type="file"
-                    name="image"
-                    accept="image/*"
-                    onChange={handleImageChange}
-                    required
-                    style={styles.input}
-                />
-                <button type="submit" style={styles.button}>
-                    Add Product
-                </button>
-            </form>
-        </div>
-    );
-};
+      // await axios.post("http://localhost:5100/api/addproduct", formData, {
+      //   headers: { "Content-Type": "multipart/form-data" },
+      // });
 
-const styles = {
-    container: {
-        maxWidth: "400px",
-        margin: "20px auto",
-        padding: "20px",
-        border: "1px solid #ddd",
-        borderRadius: "10px",
-        boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
-        fontFamily: "sans-serif",
-        backgroundColor :"white "
-    },
-    form: {
-        display: "flex",
-        flexDirection: "column",
-        gap: "10px",
-    },
-    input: {
-        padding: "10px",
-        fontSize: "16px",
-    },
-    button: {
-        padding: "10px",
-        fontSize: "16px",
-        backgroundColor: "#4CAF50",
-        color: "white",
-        border: "none",
-        borderRadius: "5px",
-        cursor: "pointer",
-    },
+      message.success("Product added successfully!");
+      form.resetFields();
+      setFileList([]);
+    } catch (error) {
+      console.error(error);
+      message.error("Error adding product. Please try again.");
+    }
+  };
+
+  return (
+    <div className="max-w-2xl mx-auto bg-white p-8 rounded-xl shadow-lg mt-10">
+      <h2 className="text-3xl font-bold text-center text-green-700 underline mb-6">
+        Add Your Product
+      </h2>
+
+      <Form
+        form={form}
+        layout="vertical"
+        onFinish={handleFinish}
+        className="space-y-4"
+      >
+        <Form.Item
+          label="Product Name"
+          name="name"
+          rules={[{ required: true, message: "Please enter product name" }]}
+        >
+          <Input
+            placeholder="Enter product name"
+            className="p-2 rounded-md border border-gray-300"
+          />
+        </Form.Item>
+
+        <Form.Item
+          label="Price"
+          name="price"
+          rules={[{ required: true, message: "Please enter product price" }]}
+        >
+          <Input
+            type="number"
+            placeholder="Enter price"
+            className="p-2 rounded-md border border-gray-300"
+          />
+        </Form.Item>
+
+        <Form.Item
+          label="Unit"
+          name="unit"
+          rules={[{ required: true, message: "Please select a unit" }]}
+        >
+          <Select className="w-full">
+            <Option value="Kg">Kg</Option>
+            <Option value="Dozen">Dozen</Option>
+            <Option value="Piece">Piece</Option>
+            <Option value="Gram">Gram</Option>
+          </Select>
+        </Form.Item>
+
+        <Form.Item
+          label="Quantity"
+          name="quantity"
+          rules={[{ required: true, message: "Please enter quantity" }]}
+        >
+          <Input
+            type="number"
+            placeholder="Enter quantity"
+            className="p-2 rounded-md border border-gray-300"
+          />
+        </Form.Item>
+
+        <Form.Item
+          label="Product Category"
+          name="category"
+          rules={[{ required: true, message: "Please select category" }]}
+        >
+          <Radio.Group className="space-x-4">
+            <Radio value="Fruit">Fruit</Radio>
+            <Radio value="Veggie">Veggie</Radio>
+          </Radio.Group>
+        </Form.Item>
+
+        <Form.Item
+          label="Product Image"
+          name="image"
+          valuePropName="file"
+          rules={[{ required: true, message: "Please upload a product image" }]}
+        >
+          <Upload
+            fileList={fileList}
+            onChange={({ fileList }) => setFileList(fileList)}
+            beforeUpload={() => false}
+            maxCount={1}
+          >
+            <Button icon={<UploadOutlined />}>Click to Upload</Button>
+          </Upload>
+        </Form.Item>
+
+        <Form.Item>
+          <Button
+            type="primary"
+            htmlType="submit"
+            className="bg-green-600 hover:bg-green-700 text-white font-semibold px-6 py-2 rounded"
+          >
+            Add Product
+          </Button>
+        </Form.Item>
+      </Form>
+    </div>
+  );
 };
 
 export default AddProduct;
