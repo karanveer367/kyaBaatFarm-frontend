@@ -11,18 +11,16 @@ const AddProduct = () => {
 
   const handleFinish = async (values) => {
     try {
-      const formData = new FormData();
-      Object.entries(values).forEach(([key, value]) => {
-        if (key === "image") {
-          formData.append("image", value.file.originFileObj);
-        } else {
-          formData.append(key, value);
-        }
-      });
+      // const formData = new FormData();
+      // Object.entries(values).forEach(([key, value]) => {
+      //   if (key === "image") {
+      //     formData.append("image", value.file.originFileObj);
+      //   } else {
+      //     formData.append(key, value);
+      //   }
+      // });
 
-      await axios.post("http://localhost:5100/api/product/addproduct", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
+      await axios.post("http://localhost:5100/api/product/addproduct",{values})
 
       message.success("Product added successfully!");
       form.resetFields();
@@ -45,6 +43,7 @@ const AddProduct = () => {
         onFinish={handleFinish}
         className="space-y-4"
       >
+        {/* Product Name */}
         <Form.Item
           label="Product Name"
           name="name"
@@ -56,43 +55,71 @@ const AddProduct = () => {
           />
         </Form.Item>
 
+        {/* Price + Unit */}
         <Form.Item
-          label="Price"
-          name="price"
-          rules={[{ required: true, message: "Please enter product price" }]}
+          label="Price and Unit"
+          required
         >
-          <Input
-            type="number"
-            placeholder="Enter price"
-            className="p-2 rounded-md border border-gray-300"
-          />
+          <div className="flex gap-4">
+            <Form.Item
+              name="price"
+              rules={[{ required: true, message: "Please enter price" }]}
+              noStyle
+            >
+              <Input
+                type="number"
+                placeholder="Price (₹)"
+                className="p-2 rounded-md border border-gray-300 w-full"
+              />
+            </Form.Item>
+            <Form.Item
+              name="unit"
+              rules={[{ required: true, message: "Please select unit" }]}
+              noStyle
+            >
+              <Select className="w-full">
+                <Option value="Kg">per Kg</Option>
+                <Option value="Dozen">per Dozen</Option>
+                <Option value="Piece">per Piece</Option>
+                <Option value="Gram">per Gram</Option>
+              </Select>
+            </Form.Item>
+          </div>
         </Form.Item>
 
+        {/* Quantity */}
         <Form.Item
-          label="Unit"
-          name="unit"
-          rules={[{ required: true, message: "Please select a unit" }]}
+          label="Quantity and units"
+          required
         >
-          <Select className="w-full">
-            <Option value="Kg">Kg</Option>
-            <Option value="Dozen">Dozen</Option>
-            <Option value="Piece">Piece</Option>
-            <Option value="Gram">Gram</Option>
-          </Select>
+          <div className="flex gap-4">
+            <Form.Item
+              name="quantity"
+              rules={[{ required: true, message: "Please enter quantity" }]}
+              noStyle
+            >
+              <Input
+                type="number"
+                placeholder="Quantity"
+                className="p-2 rounded-md border border-gray-300 w-full"
+              />
+            </Form.Item>
+            <Form.Item
+              name="unit"
+              rules={[{ required: true, message: "Please select unit" }]}
+              noStyle
+            >
+              <Select className="w-full">
+                <Option value="Kg">Kg</Option>
+                <Option value="Dozen">Dozen</Option>
+                <Option value="Piece">Piece</Option>
+                <Option value="Gram">Gram</Option>
+              </Select>
+            </Form.Item>
+          </div>
         </Form.Item>
 
-        <Form.Item
-          label="Quantity"
-          name="quantity"
-          rules={[{ required: true, message: "Please enter quantity" }]}
-        >
-          <Input
-            type="number"
-            placeholder="Enter quantity"
-            className="p-2 rounded-md border border-gray-300"
-          />
-        </Form.Item>
-
+        {/* Category */}
         <Form.Item
           label="Product Category"
           name="category"
@@ -104,6 +131,7 @@ const AddProduct = () => {
           </Radio.Group>
         </Form.Item>
 
+        {/* Image Upload */}
         <Form.Item
           label="Product Image"
           name="image"
@@ -120,6 +148,7 @@ const AddProduct = () => {
           </Upload>
         </Form.Item>
 
+        {/* Submit Button */}
         <Form.Item>
           <Button
             type="primary"
